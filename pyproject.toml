@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "nemix-todo"
+version = "0.1.0"
+description = ""
+authors = ["Vasiliynemix <vasyanemix@gmail.com>"]
+readme = "README.md"
+packages = [{include = "nemix_todo"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
