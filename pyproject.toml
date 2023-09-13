@@ -8,7 +8,15 @@ packages = [{include = "nemix_todo"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fastapi = {extras = ["all"], version = "^0.103.1"}
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.20"}
+alembic = {extras = ["asyncio"], version = "^1.12.0"}
+pydantic-settings = "^2.0.3"
+asyncpg = "^0.28.0"
 
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
 
 [build-system]
 requires = ["poetry-core"]
