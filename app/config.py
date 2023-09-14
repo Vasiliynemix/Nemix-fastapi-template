@@ -8,6 +8,11 @@ load_dotenv()
 
 
 @dataclass
+class LoggingConfig:
+    file_name: str = os.getenv('LOG_FILE_NAME')
+
+
+@dataclass
 class DatabaseConfig:
     name: str | None = os.getenv("DB_NAME")
     user: str | None = os.getenv("DB_USER")
@@ -17,6 +22,8 @@ class DatabaseConfig:
 
     database_system: str = os.getenv("DB_SYSTEM")
     driver: str = os.getenv("DB_DRIVER")
+
+    debug: bool = bool(os.getenv("DEBUG"))
 
     def build_connection_str(self) -> str:
         return URL.create(
@@ -32,6 +39,7 @@ class DatabaseConfig:
 @dataclass
 class Config:
     db = DatabaseConfig()
+    logger = LoggingConfig()
 
 
 conf = Config()

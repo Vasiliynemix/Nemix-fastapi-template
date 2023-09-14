@@ -1,7 +1,10 @@
+import logging
+
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from starlette import status
 
+from app.logger import logger
 from app.schemas.users import UserAddSchema
 from app.utils.decorators import WithUOWDecorator
 from app.utils.unitofwork import UnitOfWork
@@ -12,7 +15,7 @@ class UserService(metaclass=WithUOWDecorator):
         try:
             user_dict = user.model_dump()
             user = await uow.users.add(data=user_dict)
-        except IntegrityError:
+        except IntegrityError as _ex:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail='Такой пользователь уже существует',
