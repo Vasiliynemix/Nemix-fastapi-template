@@ -12,7 +12,7 @@ class IUnitOfWork(ABC):
     @abstractmethod
     def __init__(self):
         raise NotImplementedError
-    
+
     @abstractmethod
     async def __aenter__(self):
         raise NotImplementedError
@@ -37,11 +37,12 @@ class UnitOfWork:
     async def __aenter__(self):
         self.session = self.session_factory()
 
-        self.tasks = TasksRepository(session=self.session) # noqa
-        self.users = UsersRepository(session=self.session) # noqa
+        self.tasks = TasksRepository(session=self.session)  # noqa
+        self.users = UsersRepository(session=self.session)  # noqa
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        await self.commit()
+        if exc_val is None:
+            await self.commit()
         await self.rollback()
         await self.session.close()
 
