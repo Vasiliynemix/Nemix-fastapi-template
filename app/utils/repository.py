@@ -30,14 +30,15 @@ class SQLAlchemyRepository(AbstractRepository):
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def add(self, data: dict) -> type(model):
-        stmt = insert(self.model).values(**data)
+    async def add(self, data: dict):
+        stmt = insert(self.model).values(**data).returning(self.model)
         return await self.session.scalar(stmt)
 
-    async def get(self, ident: int) -> type(model):
-        return self.session.get(entity=self.model, ident=ident)
+    async def get(self, ident: int):
+        stmt = select(self.model).where(self.model.id == ident)
+        return await self.session.scalar(stmt)
 
-    async def update(self, values: dict) -> type(model):
+    async def update(self, values: dict):
         stmt = update(self.model).values(**values).returning(self.model)
         return await self.session.scalar(stmt)
 
@@ -45,7 +46,7 @@ class SQLAlchemyRepository(AbstractRepository):
         stmt = delete(self.model).where(self.model.id == ident)
         await self.session.scalar(stmt)
 
-    async def find_all(self) -> list[type(model)]:
-        stmt = select(self.model)
-        result = await self.session.scalars(stmt)
-        return list(result.all())
+    async def find_all(self):
+        stmt = select(self.model).order_by(self.model.update_at)
+        models = await self.session.scalars(stmt)
+        return models.all()

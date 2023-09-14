@@ -30,10 +30,9 @@ class IUnitOfWork(ABC):
         raise NotImplementedError
 
 
-class UnitOfWork(IUnitOfWork):
+class UnitOfWork:
     def __init__(self):
         self.session_factory = async_session_maker
-        self.model = None
 
     async def __aenter__(self):
         self.session = self.session_factory()
@@ -42,6 +41,7 @@ class UnitOfWork(IUnitOfWork):
         self.users = UsersRepository(session=self.session) # noqa
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.commit()
         await self.rollback()
         await self.session.close()
 
