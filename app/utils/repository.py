@@ -16,7 +16,7 @@ class AbstractRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def update(self, values: dict):
+    async def update(self, user_id: int, values: dict):
         raise NotImplementedError
 
     @abstractmethod
@@ -38,8 +38,8 @@ class SQLAlchemyRepository(AbstractRepository):
         stmt = select(self.model).where(self.model.id == ident)
         return await self.session.scalar(stmt)
 
-    async def update(self, values: dict):
-        stmt = update(self.model).values(**values).returning(self.model)
+    async def update(self, user_id: int, values: dict):
+        stmt = update(self.model).where(self.model.id == user_id).values(**values).returning(self.model)
         return await self.session.scalar(stmt)
 
     async def delete(self, ident: int):

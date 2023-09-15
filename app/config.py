@@ -8,6 +8,11 @@ load_dotenv()
 
 
 @dataclass
+class APIVersionConfig:
+    v1: str = os.getenv('API_DEFAULT_PATH_V1')
+
+
+@dataclass
 class LoggingConfig:
     file_name: str = os.getenv('LOG_FILE_NAME')
 
@@ -40,6 +45,7 @@ class DatabaseConfig:
 class Config:
     db = DatabaseConfig()
     logger = LoggingConfig()
+    api_version = APIVersionConfig()
 
 
 conf = Config()
