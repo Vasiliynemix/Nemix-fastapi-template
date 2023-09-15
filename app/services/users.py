@@ -13,10 +13,10 @@ class UserService(metaclass=WithUOWDecorator):
     async def add_user(self, uow: UnitOfWork, user: UserAddSchema):  # noqa
         try:
             password_check = PasswordCheck(password=user.password)
-            password = await password_check.get_hashed_password()
+            hashed_password = await password_check.get_hashed_password()
             user_dict = user.model_dump()
             del user_dict["password"]
-            user_dict['hashed_password'] = password
+            user_dict["hashed_password"] = hashed_password
             new_user = await uow.users.add(data=user_dict)
         except IntegrityError as _ex:
             raise HTTPException(
@@ -44,11 +44,20 @@ class UserService(metaclass=WithUOWDecorator):
             )
         return user
 
-    async def update_user(self, user_id: int, uow: UnitOfWork, update_user: UserUpdateSchema): # noqa
+    async def update_user( # noqa
+        self,
+        user_id: int,
+        uow: UnitOfWork,
+        update_user: UserUpdateSchema,
+    ):
         values = update_user.model_dump(exclude_unset=True)
+        password_check = PasswordCheck(password=values.get("password"))
+        hashed_password = await password_check.get_hashed_password()
+        del values["password"]
+        values["hashed_password"] = hashed_password
         try:
             user = await uow.users.update(user_id=user_id, values=values)
-        except IntegrityError as _ex:
+        except IntegrityError:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=await ErrorResponse(
