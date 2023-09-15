@@ -13,8 +13,16 @@ class APIVersionConfig:
 
 
 @dataclass
-class LoggingConfig:
+class LoggerConfig:
     file_name: str = os.getenv('LOG_FILE_NAME')
+
+
+@dataclass
+class AuthConfig:
+    access_token_expires: int = int(os.getenv('ACCESS_TOKEN_EXPIRES'))
+    hash_password_algorithm: str = os.getenv('HASHED_PASSWORD_ALGORITHM')
+    token_algorithm: str = os.getenv('TOKEN_ALGORITHM')
+    secret_key: str = os.getenv('SECRET_KEY_FOR_TOKEN')
 
 
 @dataclass
@@ -43,9 +51,10 @@ class DatabaseConfig:
 
 @dataclass
 class Config:
-    db = DatabaseConfig()
-    logger = LoggingConfig()
     api_version = APIVersionConfig()
+    db = DatabaseConfig()
+    logger = LoggerConfig()
+    auth = AuthConfig()
 
 
 conf = Config()

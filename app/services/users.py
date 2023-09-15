@@ -13,7 +13,7 @@ class UserService(metaclass=WithUOWDecorator):
     async def add_user(self, uow: UnitOfWork, user: UserAddSchema):  # noqa
         try:
             password_check = PasswordCheck(password=user.password)
-            password = await password_check.hashed_password()
+            password = await password_check.get_hashed_password()
             user_dict = user.model_dump()
             del user_dict["password"]
             user_dict['hashed_password'] = password
@@ -52,7 +52,7 @@ class UserService(metaclass=WithUOWDecorator):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=await ErrorResponse(
-                    status_code=404,
+                    status_code=400,
                     message=f"User with email '{update_user.email}' or username '{update_user.username}' is exist",
                 ).to_dict_one(),
             )

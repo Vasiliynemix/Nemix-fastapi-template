@@ -8,6 +8,10 @@ class UserBaseSchema(BaseModel):
     email: EmailStr
 
 
+class UserCheckTokenSchema(BaseModel):
+    username: str
+
+
 class UserAddSchema(UserBaseSchema):
     password: str
 
@@ -22,4 +26,3 @@ class UserShowSchema(UserBaseSchema):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    user_id: uuid.UUID

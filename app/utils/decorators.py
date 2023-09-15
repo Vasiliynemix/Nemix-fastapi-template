@@ -1,7 +1,10 @@
 def with_uow(func):
     async def wrapper(self, *args, **kwargs):
-        async with kwargs.get('uow'):
+        if kwargs.get("uow") is None:
             return await func(self, *args, **kwargs)
+        async with kwargs.get("uow"):
+            return await func(self, *args, **kwargs)
+
     return wrapper
 
 
