@@ -25,9 +25,12 @@ class LoginService(metaclass=WithUOWDecorator):
                 message=f"Could not validate credentials",
             ).to_dict_one(),
         )
-        user = await uow.users.get_user_by_username(username=username)
+        user = await uow.users.get_user_by_username(
+            username=username
+        )
         if user is None:
             return credentials_exception
+
         return user
 
     async def authenticate_user(  # noqa
@@ -53,10 +56,10 @@ class LoginService(metaclass=WithUOWDecorator):
             raise incorrect_exception
         return user
 
-    async def create_token_for_username(self, username: str):  # noqa
+    async def create_token_for_username(self, user):  # noqa
         access_token_expires = timedelta(minutes=conf.auth.access_token_expires)
         access_token = create_access_token(
-            data={"sub": username},
+            data={"sub": user.username, "user_id": user.id},
             expires_delta=access_token_expires,
         )
         token = Token(access_token=access_token, token_type="bearer")

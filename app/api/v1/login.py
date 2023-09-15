@@ -9,7 +9,7 @@ from app.api.v1.dependencies import (
 )
 from app.api.v1.response import SuccessResponse
 from app.schemas.login import Token
-from app.schemas.users import UserCheckTokenSchema, UserShowSchema
+from app.schemas.users import UserShowSchema
 from app.services.login import LoginService
 
 router = APIRouter(prefix="/login", tags=["Auth"])
@@ -17,15 +17,15 @@ router = APIRouter(prefix="/login", tags=["Auth"])
 
 @router.post("/token", response_model=Token)
 async def login_with_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     uow: UOWDep,
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ):
     user = await LoginService().authenticate_user(
         uow=uow,
         password=form_data.password,
         username=form_data.username,
     )
-    token = await LoginService().create_token_for_username(username=user.username)
+    token = await LoginService().create_token_for_username(user=user)
     return token
 
 

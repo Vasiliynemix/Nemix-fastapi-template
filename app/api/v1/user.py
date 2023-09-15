@@ -1,9 +1,9 @@
 from typing import Annotated, Any
 
-from fastapi import APIRouter, Path, Query, Body
+from fastapi import APIRouter, Path, Query, Body, Depends
 from starlette import status
 
-from app.api.v1.dependencies import UOWDep
+from app.api.v1.dependencies import UOWDep, get_current_username_from_token, get_current_user_id_from_token
 from app.api.v1.response import SuccessResponse
 from app.schemas.users import (
     UserShowSchema,
@@ -58,14 +58,14 @@ async def create_user(
 
 
 @router.put(
-    "/user/{user_id}/update/",
+    "/me/update/",
     status_code=status.HTTP_202_ACCEPTED,
     response_model=dict[str, UserShowSchema | Any],
 )
 async def update_user(
     uow: UOWDep,
-    user_id: Annotated[int, Path()],
     update_user_data: Annotated[UserUpdateSchema, Body()],
+    user_id: Annotated[int, Depends(get_current_user_id_from_token)],
 ):
     user = await UserService().update_user(
         uow=uow,

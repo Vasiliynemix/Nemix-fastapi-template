@@ -19,7 +19,7 @@ class UserAddSchema(UserBaseSchema):
 class UserUpdateSchema(BaseModel):
     username: str | None = None
     email: EmailStr | None = None
-    hashed_password: str | None = None
+    password: str | None = None
 
 
 class UserShowSchema(UserBaseSchema):
