@@ -5,7 +5,11 @@ from starlette import status
 
 from app.api.v1.dependencies import UOWDep
 from app.api.v1.response import SuccessResponse
-from app.schemas.users import UserShowSchema, UserAddSchema, UserUpdateSchema
+from app.schemas.users import (
+    UserShowSchema,
+    UserAddSchema,
+    UserUpdateSchema,
+)
 from app.services.users import UserService
 
 router = APIRouter(prefix="/users", tags=["Users"])

@@ -1,6 +1,6 @@
 from app.db.base import Base
-from .tasks import Task
-from .users import User
+from .task import Task
+from .user import User
 
 __all__ = (
     "Base",

@@ -1,12 +1,10 @@
-import logging
-
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from starlette import status
 
 from app.api.v1.response import ErrorResponse
 from app.schemas.users import UserAddSchema, UserUpdateSchema
-from app.secure.hashed_password import PasswordCheck
+from app.security.hashed_password import PasswordCheck
 from app.utils.decorators import WithUOWDecorator
 from app.utils.unitofwork import UnitOfWork
 
