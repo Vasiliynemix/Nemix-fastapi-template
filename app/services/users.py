@@ -6,6 +6,7 @@ from starlette import status
 
 from app.api.v1.response import ErrorResponse
 from app.schemas.users import UserAddSchema, UserUpdateSchema
+from app.secure.hashed_password import PasswordCheck
 from app.utils.decorators import WithUOWDecorator
 from app.utils.unitofwork import UnitOfWork
 
@@ -13,7 +14,11 @@ from app.utils.unitofwork import UnitOfWork
 class UserService(metaclass=WithUOWDecorator):
     async def add_user(self, uow: UnitOfWork, user: UserAddSchema):  # noqa
         try:
+            password_check = PasswordCheck(password=user.password)
+            password = await password_check.hashed_password()
             user_dict = user.model_dump()
+            del user_dict["password"]
+            user_dict['hashed_password'] = password
             new_user = await uow.users.add(data=user_dict)
         except IntegrityError as _ex:
             raise HTTPException(

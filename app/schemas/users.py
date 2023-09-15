@@ -9,7 +9,7 @@ class UserBaseSchema(BaseModel):
 
 
 class UserAddSchema(UserBaseSchema):
-    hashed_password: str
+    password: str
 
 
 class UserUpdateSchema(BaseModel):
