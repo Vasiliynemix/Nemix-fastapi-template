@@ -9,29 +9,29 @@ load_dotenv()
 
 @dataclass
 class APIVersionConfig:
-    v1: str = os.getenv('API_DEFAULT_PATH_V1')
+    v1: str = os.getenv("API_DEFAULT_PATH_V1")
 
 
 @dataclass
 class LoggerConfig:
-    file_name: str = os.getenv('LOG_FILE_NAME')
+    file_name: str = os.getenv("LOG_FILE_NAME")
 
 
 @dataclass
 class AuthConfig:
-    access_token_expires: int = int(os.getenv('ACCESS_TOKEN_EXPIRES'))
-    hash_password_algorithm: str = os.getenv('HASHED_PASSWORD_ALGORITHM')
-    token_algorithm: str = os.getenv('TOKEN_ALGORITHM')
-    secret_key: str = os.getenv('SECRET_KEY_FOR_TOKEN')
+    access_token_expires: int = int(os.getenv("ACCESS_TOKEN_EXPIRES"))
+    hash_password_algorithm: str = os.getenv("HASHED_PASSWORD_ALGORITHM")
+    token_algorithm: str = os.getenv("TOKEN_ALGORITHM")
+    secret_key: str = os.getenv("SECRET_KEY_FOR_TOKEN")
 
 
 @dataclass
 class DatabaseConfig:
-    name: str | None = os.getenv("DB_NAME")
-    user: str | None = os.getenv("DB_USER")
-    passwd: str | None = os.getenv("DB_PASSWORD")
-    port: int = int(os.getenv("DB_PORT"))
-    host: str = os.getenv("DB_HOST")
+    name: str = os.getenv("POSTGRES_DB")
+    user: str = os.getenv("POSTGRES_USER")
+    passwd: str = os.getenv("POSTGRES_PASSWORD")
+    port: int = int(os.getenv("DB_PORT", 5432))
+    host: str = os.getenv("DB_HOST", "db")
 
     database_system: str = os.getenv("DB_SYSTEM")
     driver: str = os.getenv("DB_DRIVER")
