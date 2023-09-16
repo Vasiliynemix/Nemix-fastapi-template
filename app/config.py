@@ -23,6 +23,7 @@ class AuthConfig:
     hash_password_algorithm: str = os.getenv("HASHED_PASSWORD_ALGORITHM")
     token_algorithm: str = os.getenv("TOKEN_ALGORITHM")
     secret_key: str = os.getenv("SECRET_KEY_FOR_TOKEN")
+    reset_verify_token: str = os.getenv("RESET_VERIFY_TOKEN")
 
 
 @dataclass
