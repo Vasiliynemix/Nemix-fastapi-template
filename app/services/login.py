@@ -57,7 +57,7 @@ class LoginService(metaclass=WithUOWDecorator):
         return user
 
     async def create_token_for_username(self, user):  # noqa
-        access_token_expires = timedelta(minutes=conf.auth.access_token_expires)
+        access_token_expires = timedelta(minutes=conf.auth.access_token_expire)
         access_token = create_access_token(
             data={"sub": user.username, "user_id": user.id},
             expires_delta=access_token_expires,

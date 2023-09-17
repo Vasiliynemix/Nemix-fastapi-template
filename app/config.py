@@ -13,13 +13,19 @@ class APIVersionConfig:
 
 
 @dataclass
+class RedisConfig:
+    auth_token_db: int = int(os.getenv("REDIS_AUTH_TOKEN_DB"))
+    auth_token_password: str = os.getenv("REDIS_AUTH_TOKEN_PASSWORD")
+
+
+@dataclass
 class LoggerConfig:
     file_name: str = os.getenv("LOG_FILE_NAME")
 
 
 @dataclass
 class AuthConfig:
-    access_token_expires: int = int(os.getenv("ACCESS_TOKEN_EXPIRES"))
+    access_token_expire: int = int(os.getenv("ACCESS_TOKEN_EXPIRE"))
     hash_password_algorithm: str = os.getenv("HASHED_PASSWORD_ALGORITHM")
     token_algorithm: str = os.getenv("TOKEN_ALGORITHM")
     secret_key: str = os.getenv("SECRET_KEY_FOR_TOKEN")
@@ -56,6 +62,7 @@ class Config:
     db = DatabaseConfig()
     logger = LoggerConfig()
     auth = AuthConfig()
+    redis = RedisConfig()
 
 
 conf = Config()

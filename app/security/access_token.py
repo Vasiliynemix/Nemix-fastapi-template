@@ -11,7 +11,7 @@ def create_access_token(
 ):
     to_encode = data.copy()
     if expires_delta is None:
-        expire = datetime.utcnow() + timedelta(minutes=conf.auth.access_token_expires)
+        expire = datetime.utcnow() + timedelta(minutes=conf.auth.access_token_expire)
     else:
         expire = datetime.utcnow() + expires_delta
     to_encode.update({"exp": expire})
