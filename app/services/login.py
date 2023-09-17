@@ -64,3 +64,6 @@ class LoginService(metaclass=WithUOWDecorator):
         )
         token = Token(access_token=access_token, token_type="bearer")
         return token
+
+    async def revoke_token_for_username(self, user):
+        pass
