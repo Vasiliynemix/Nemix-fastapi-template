@@ -3,8 +3,8 @@ from typing import Annotated, Any
 from fastapi import APIRouter, Path, Query, Body, Depends
 from starlette import status
 
-from app.api.v1.dependencies import UOWDep
-from app.api.v1.dependencies import get_current_user_id_from_token
+from app.api.v1.dependencies.uow import UOWDep
+from app.api.v1.dependencies.auth_token import get_current_user_id_from_token
 from app.api.v1.response import SuccessResponse
 from app.schemas.users import (
     UserShowSchema,

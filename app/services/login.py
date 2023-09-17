@@ -3,7 +3,7 @@ from datetime import timedelta
 from fastapi import HTTPException
 from starlette import status
 
-from app.api.v1.dependencies import UOWDep
+from app.api.v1.dependencies.uow import UOWDep
 from app.api.v1.response import ErrorResponse
 from app.config import conf
 from app.schemas.login import Token

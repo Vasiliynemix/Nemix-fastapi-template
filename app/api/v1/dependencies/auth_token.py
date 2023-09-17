@@ -1,5 +1,3 @@
-from typing import Annotated
-
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError # noqa
@@ -7,9 +5,6 @@ from starlette import status
 
 from app.api.v1.response import ErrorResponse
 from app.config import conf
-from app.utils.unitofwork import UnitOfWork, IUnitOfWork
-
-UOWDep = Annotated[IUnitOfWork, Depends(UnitOfWork)]
 
 oauth2_schema = OAuth2PasswordBearer(tokenUrl="/login/token")
 

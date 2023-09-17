@@ -3,10 +3,10 @@ from typing import Annotated, Any
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.api.v1.dependencies import (
-    UOWDep,
+from app.api.v1.dependencies.auth_token import (
     get_current_username_from_token,
 )
+from app.api.v1.dependencies.uow import UOWDep
 from app.api.v1.response import SuccessResponse
 from app.schemas.login import Token
 from app.schemas.users import UserShowSchema
